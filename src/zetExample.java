@@ -132,8 +132,8 @@ public class zetExample extends JFrame {
         createList();
         createButtons();
 
-        Container scrollPane = new JScrollPane(myList);
-        createLayout((JComponent) scrollPane, addBtn, renBtn, delBtn, remAllBtn);
+        JComponent scrollPane = new JScrollPane(myList);
+        createLayout(scrollPane, addBtn, renBtn, delBtn, remAllBtn);
 
         setTitle("JList Model");
         setLocationRelativeTo(null);

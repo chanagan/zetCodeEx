@@ -1,10 +1,5 @@
-import javafx.scene.control.SelectionModel;
-
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 
@@ -16,11 +11,6 @@ public class zetExample extends JFrame {
     private JButton renBtn;
     private JButton delBtn;
 
-    private JButton okBtn;
-    private JLabel enabledLbl;
-    private JLabel pressedLbl;
-    private JLabel armedLbl;
-    private JCheckBox checkBox;
 
     public zetExample() {
         initUI();
@@ -123,49 +113,57 @@ public class zetExample extends JFrame {
         remAllBtn.addActionListener(e -> model.clear());
     }
 
+    private void createMenuBar() {
+        JMenuBar menuBar = new JMenuBar();
+        ImageIcon exitIcon = new ImageIcon("src/resources/icons/anchor.png");
+
+        JMenu fileMenu = new JMenu("File");
+
+        JMenuItem eMenuItem = new JMenuItem("Exit", exitIcon);
+        eMenuItem.addActionListener((event) -> System.exit(0));
+
+        fileMenu.add(eMenuItem);
+        menuBar.add(fileMenu);
+
+        setJMenuBar(menuBar);
+    }
     private void initUI() {
-        okBtn = new JButton("OK");
-        okBtn.addChangeListener(new DisabledChangeListener());
-        checkBox = new JCheckBox();
-        checkBox.setAction(new CheckBoxAction());
+        createMenuBar();
+        createList();
+        createButtons();
 
-        enabledLbl = new JLabel("Endabled: true");
-        pressedLbl = new JLabel("Pressed: false");
-        armedLbl = new JLabel("Armed: false");
+        Container scrollPane = new JScrollPane(myList);
+        createLayout((JComponent) scrollPane, addBtn, renBtn, delBtn, remAllBtn);
 
-        createLayout(okBtn, checkBox, enabledLbl, pressedLbl, armedLbl);
-
-        setTitle("Button Model");
+        setTitle("JList Model");
         setLocationRelativeTo(null);
         setDefaultCloseOperation(EXIT_ON_CLOSE);
-
     }
 
     private void createLayout(JComponent... arg) {
+        // this is standard beginning for createLayout
         Container pane = getContentPane();
         GroupLayout gl = new GroupLayout(pane);
         pane.setLayout(gl);
 
         gl.setAutoCreateContainerGaps(true);
         gl.setAutoCreateGaps(true);
+        // ------------------------
 
-        gl.setHorizontalGroup(gl.createParallelGroup()
-                .addGroup(gl.createSequentialGroup()
-                        .addComponent(arg[0])
-                        .addGap(80)
-                        .addComponent(arg[1]))
+        //
+        gl.setHorizontalGroup(gl.createSequentialGroup()
+                .addComponent(arg[0])
                 .addGroup(gl.createParallelGroup()
+                        .addComponent(arg[1])
                         .addComponent(arg[2])
                         .addComponent(arg[3])
                         .addComponent(arg[4]))
         );
 
-        gl.setVerticalGroup(gl.createSequentialGroup()
-                .addGroup(gl.createParallelGroup()
-                        .addComponent(arg[0])
-                        .addComponent(arg[1]))
-                .addGap(40)
+        gl.setVerticalGroup(gl.createParallelGroup()
+                .addComponent(arg[0])
                 .addGroup(gl.createSequentialGroup()
+                        .addComponent(arg[1])
                         .addComponent(arg[2])
                         .addComponent(arg[3])
                         .addComponent(arg[4]))
@@ -173,6 +171,7 @@ public class zetExample extends JFrame {
 
         pack();
     }
+/*
 
     private class DisabledChangeListener implements ChangeListener {
         @Override
@@ -214,6 +213,7 @@ public class zetExample extends JFrame {
             }
         }
     }
+*/
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {

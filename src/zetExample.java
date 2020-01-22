@@ -1,4 +1,4 @@
-import jdk.nashorn.internal.scripts.JO;
+import javafx.scene.control.SelectionModel;
 
 import javax.swing.*;
 import javax.swing.event.ChangeEvent;
@@ -40,7 +40,7 @@ public class zetExample extends JFrame {
         myList.addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                if (e.getClickCount()==2) {
+                if (e.getClickCount() == 2) {
                     int index = myList.locationToIndex(e.getPoint());
                     String item = model.getElementAt(index);
                     String text = JOptionPane.showInputDialog("Rename item", item);
@@ -70,7 +70,59 @@ public class zetExample extends JFrame {
         addBtn = new JButton("Add");
         renBtn = new JButton("Rename");
         delBtn = new JButton("Delete");
+
+        addBtn.addActionListener(e -> {
+            String text = JOptionPane.showInputDialog("Add a new item");
+            String item;
+
+            if (text != null) {
+                item = text.trim();
+            } else {
+                return;
+            }
+            if (!item.isEmpty()) {
+                model.addElement(item);
+            }
+        });
+
+        delBtn.addActionListener(e -> {
+            ListSelectionModel selModel = myList.getSelectionModel();
+            int index = selModel.getMinSelectionIndex();
+
+            if (index >= 0) {
+                model.remove(index);
+            }
+        });
+
+        renBtn.addActionListener(e -> {
+
+            ListSelectionModel selModel = myList.getSelectionModel();
+            int index = selModel.getMinSelectionIndex();
+
+            if (index == -1) {
+                return;
+            }
+
+            String  item = model.getElementAt(index);
+            String text = JOptionPane.showInputDialog("Rename item", item);
+            String newItem;
+
+            if (text != null) {
+                newItem = text.trim();
+            } else {
+                return;
+            }
+
+            if (!newItem.isEmpty()) {
+
+                model.remove(index);
+                model.add(index, newItem);
+            }
+        });
+
+        remAllBtn.addActionListener(e -> model.clear());
     }
+
     private void initUI() {
         okBtn = new JButton("OK");
         okBtn.addChangeListener(new DisabledChangeListener());

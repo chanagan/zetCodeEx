@@ -125,6 +125,11 @@ public class zetExample extends JFrame {
         fileMenu.add(eMenuItem);
         menuBar.add(fileMenu);
 
+        JMenu inventMenu = new JMenu("Inventory");
+        JMenuItem lMenuItem = new JMenuItem("Load from file");
+        inventMenu.add(lMenuItem);
+        menuBar.add(inventMenu);
+
         setJMenuBar(menuBar);
     }
     private void initUI() {
